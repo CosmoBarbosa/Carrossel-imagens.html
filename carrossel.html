@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrossel Dinâmico</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .carousel {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    .carousel-images {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      height: 100%;
+    }
+    .carousel-images img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .carousel-buttons {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+    .carousel-buttons button {
+      background-color: rgba(0, 0, 0, 0);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 18px;
+    }
+    .carousel-buttons button:hover {
+      background-color: rgba(0, 0, 0, 0);
+    }
+  </style>
+</head>
+<body>
+  <div class="carousel">
+    <div class="carousel-images" id="carouselImages"></div>
+    <div class="carousel-buttons">
+      <button id="prev"></button>
+      <button id="next"></button>
+    </div>
+  </div>
+
+  <script>
+    const imageLinks = [
+      "https://services.meteored.com/img/article/inteligencia-artificial-aprende-a-reconstruir-imagens-vistas-por-pessoas-ciencia-fotos-1679175318563_1024.jpg",
+      "https://conteudize.ai/blog/wp-content/uploads/2024/06/como-criar-prompts-para-geracao-de-imagens-com-ia.webp",
+      "https://media.istockphoto.com/id/2101175462/pt/foto/trekking-path-in-mountains-at-summer-sunset.webp?s=1024x1024&w=is&k=20&c=PEbfUSxDAE-zgCKAYNqOBxJPPVer_8_lCHKR3g-6XTg=",
+    ];
+
+    const carouselImages = document.getElementById('carouselImages');
+
+    imageLinks.forEach(link => {
+      const img = document.createElement('img');
+      img.src = link;
+      img.alt = "Carrossel Imagem";
+      carouselImages.appendChild(img);
+    });
+
+    const prevButton = document.getElementById('prev');
+    const nextButton = document.getElementById('next');
+
+    let currentIndex = 0;
+
+    function updateCarousel() {
+      const offset = -currentIndex * 100; // Calcula a posição do carrossel
+      carouselImages.style.transform = `translateX(${offset}%)`;
+    }
+
+    function showNextImage() {
+      currentIndex = (currentIndex + 1) % imageLinks.length;
+      updateCarousel();
+    }
+
+    function showPrevImage() {
+      currentIndex = (currentIndex - 1 + imageLinks.length) % imageLinks.length;
+      updateCarousel();
+    }
+
+    nextButton.addEventListener('click', showNextImage);
+    prevButton.addEventListener('click', showPrevImage);
+    setInterval(showNextImage, 3500);
+  </script>
+</body>
+</html>
